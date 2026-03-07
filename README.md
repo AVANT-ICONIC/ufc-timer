@@ -18,7 +18,11 @@
 <br/>
 
 <div align="center">
-  <code>[EARLY PRELIMS]</code> ━ <code>[PRELIMS]</code> ━ <code>[MAIN CARD]</code>
+  <b>EARLY PRELIMS</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>PRELIMS</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>MAIN CARD</b>
+  <br />
+  <code>[██████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░]</code>
+  <br />
+  <i>Current Status: <b>HEATING UP</b></i>
 </div>
 
 <br/>
@@ -33,12 +37,3 @@
 *   **🔥 Live State:** Automatically transitions to a pulsing **LIVE NOW** state when it's time for the main event cycle.
 *   **⚔️ Brutalist Design:** Dark radial gradients, subtle noise textures, and ultra-bold typography. No ads, no fluff.
 
----
-
-<br/>
-
-<div align="center">
-
-**MADE FOR THE SLEEP DEPRIVED // UNFORCED ERRORS 2026**
-
-</div>
