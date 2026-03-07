@@ -294,7 +294,7 @@ header {
   text-transform: uppercase;
   color: var(--text-dim);
   font-weight: 900;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.2em;
   margin-top: 1rem;
   text-align: center;
 }
