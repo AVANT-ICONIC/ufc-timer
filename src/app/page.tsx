@@ -81,7 +81,7 @@ export default async function Home() {
       </section>
 
       <footer className="footer-credit">
-        UNFORCED ERRORS // 2024
+        UNFORCED ERRORS // 2026
       </footer>
     </>
   );

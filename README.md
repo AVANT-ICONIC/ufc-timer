@@ -1,50 +1,44 @@
-<p align="center">
-  <br />
-  <img src="https://img.shields.io/badge/FIGHT-CLOCK-ff0033?style=for-the-badge&logo=ufc&logoColor=white" height="50" />
-  <br />
-  <br />
-  <b>YOUR SLEEP SCHEDULE IS OFFICIALLY DEAD.</b>
-  <br />
-  <br />
-  <a href="https://ufc-timer.vercel.app">
-    <img src="https://img.shields.io/badge/ENTER_THE_OCTAGON-LIVE-ff0033?style=for-the-badge" height="45" />
-  </a>
-</p>
+<div align="center">
+
+# 🥊 FIGHTCLOCK
+### [UFC-TIMER.VERCEL.APP](https://ufc-timer.vercel.app)
+
+<br/>
+
+> **A premium, phase-aware UFC countdown designed specifically for the European timezone.**
+
+<br/>
+
+[![Enter the Octagon](https://img.shields.io/badge/ENTER_THE_OCTAGON-LIVE_NOW-ff0033?style=for-the-badge&logo=vercel)](https://ufc-timer.vercel.app)
+
+</div>
 
 ---
 
-### 🕒 THE LIVE COUNTDOWN
-<p align="center">
-  <img src="https://img.shields.io/badge/🕒-BERLIN_TIME-black?style=for-the-badge" />
-  <br />
-  <br />
-  <code>🌑 ARENA ATMOSPHERE</code> &nbsp; <code>🔴 PHASE AWARE</code> &nbsp; <code>⚔️ NO DISTRACTIONS</code>
-</p>
+<br/>
+
+<div align="center">
+  <code>[EARLY PRELIMS]</code> ━ <code>[PRELIMS]</code> ━ <code>[MAIN CARD]</code>
+</div>
+
+<br/>
+
+## 🌑 THE RITUAL
+
+**FIGHTCLOCK** is built for the CET/CEST warriors staying up until dawn. It removes the friction of timezone math and calendar digging, providing a cinematic, zero-distraction dashboard that tracks the exact status of the fight night.
+
+### Features
+*   **🔴 Phase Aware:** Dynamically switches targets from Early Prelims ➔ Prelims ➔ Main Card.
+*   **🕒 Berlin Native:** Hardcoded for `Europe/Berlin`. No more guessing when the main card actually starts.
+*   **🔥 Live State:** Automatically transitions to a pulsing **LIVE NOW** state when it's time for the main event cycle.
+*   **⚔️ Brutalist Design:** Dark radial gradients, subtle noise textures, and ultra-bold typography. No ads, no fluff.
 
 ---
 
-### 📊 THE FIGHT CYCLE
-<p align="center">
-  <b>EARLY PRELIMS</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>PRELIMS</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>MAIN CARD</b>
-  <br />
-  <code>[██████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░]</code>
-  <br />
-  <i>Current Status: <b>HEATING UP</b></i>
-</p>
+<br/>
 
----
+<div align="center">
 
-### 📡 THE RITUAL
-**FIGHTCLOCK** is a broadcast-inspired experience for the European UFC fan. It tracks the entire night so you don't have to do the math.
+**MADE FOR THE SLEEP DEPRIVED // UNFORCED ERRORS 2026**
 
-1. **THE COFFEE:** Early Prelims start.
-2. **THE HYPE:** Prelims begin. 
-3. **THE SHOW:** Main Card is **LIVE NOW**.
-
----
-
-<p align="center">
-  <b>MADE BY THE SLEEP DEPRIVED // UNFORCED ERRORS 2024</b>
-  <br />
-  <a href="https://ufc-timer.vercel.app">ufc-timer.vercel.app</a>
-</p>
+</div>
