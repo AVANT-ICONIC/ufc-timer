@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <br />
+  <img src="https://img.shields.io/badge/FIGHT-CLOCK-ff0033?style=for-the-badge&logo=ufc&logoColor=white" height="50" />
+  <br />
+  <br />
+  <b>YOUR SLEEP SCHEDULE IS OFFICIALLY DEAD.</b>
+  <br />
+  <br />
+  <a href="https://ufc-timer.vercel.app">
+    <img src="https://img.shields.io/badge/ENTER_THE_OCTAGON-LIVE-ff0033?style=for-the-badge" height="45" />
+  </a>
+</p>
 
-## Getting Started
+---
 
-First, run the development server:
+### 🕒 THE LIVE COUNTDOWN
+<p align="center">
+  <img src="https://img.shields.io/badge/🕒-BERLIN_TIME-black?style=for-the-badge" />
+  <br />
+  <br />
+  <code>🌑 ARENA ATMOSPHERE</code> &nbsp; <code>🔴 PHASE AWARE</code> &nbsp; <code>⚔️ NO DISTRACTIONS</code>
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📊 THE FIGHT CYCLE
+<p align="center">
+  <b>EARLY PRELIMS</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>PRELIMS</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>MAIN CARD</b>
+  <br />
+  <code>[██████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░]</code>
+  <br />
+  <i>Current Status: <b>HEATING UP</b></i>
+</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 📡 THE RITUAL
+**FIGHTCLOCK** is a broadcast-inspired experience for the European UFC fan. It tracks the entire night so you don't have to do the math.
 
-## Learn More
+1. **THE COFFEE:** Early Prelims start.
+2. **THE HYPE:** Prelims begin. 
+3. **THE SHOW:** Main Card is **LIVE NOW**.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<p align="center">
+  <b>MADE BY THE SLEEP DEPRIVED // UNFORCED ERRORS 2024</b>
+  <br />
+  <a href="https://ufc-timer.vercel.app">ufc-timer.vercel.app</a>
+</p>

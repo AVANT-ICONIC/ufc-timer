@@ -1,66 +1,88 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { getEvents } from "@/lib/ufc/get-events";
+import { selectPrimaryEvent } from "@/lib/ufc/select-primary-event";
+import CountdownTicker from "@/components/CountdownTicker";
 
-export default function Home() {
+export default async function Home() {
+  const events = await getEvents();
+  const primaryEvent = selectPrimaryEvent(events);
+  const upcomingEvents = events.filter(e => e.id !== primaryEvent?.id).slice(0, 3);
+
+  // Extract fighter names from summary (e.g., "Holloway vs Oliveira")
+  const matchupParts = primaryEvent?.eventName.split(" vs ") || ["FIGHT", "CLOCK"];
+  const fighter1 = matchupParts[0]?.trim().toUpperCase() || "TBA";
+  const fighter2 = matchupParts[1]?.trim().toUpperCase() || "TBA";
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <header className="header">
+        <div className="logo">FIGHT<span>CLOCK</span></div>
+        <div className="status-widget">
+          Source: <span>UFC Calendar</span>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      <main className="hero">
+        <div className="event-tag">{primaryEvent?.eventType || "Main Event Cycle"}</div>
+        <h1 className="matchup">
+          <strong>{fighter1}</strong> <span>vs</span> <strong>{fighter2}</strong>
+        </h1>
+        
+        <div className="timer-container">
+          {primaryEvent ? (
+            <CountdownTicker event={primaryEvent} />
+          ) : (
+            <div className="clock-placeholder">No upcoming events</div>
+          )}
+        </div>
+
+        <div className="phases-container">
+          <div className="phase-track">
+            <div id="progress-fill" className="phase-progress-fill" style={{ width: '0%' }}></div>
+          </div>
+          <div className="milestones-wrapper">
+            <div id="mile-early" className="milestone">
+              <div className="milestone-label">Early Prelims</div>
+              <div className="milestone-dot"></div>
+            </div>
+            <div id="mile-prelims" className="milestone">
+              <div className="milestone-label">Prelims</div>
+              <div className="milestone-dot"></div>
+            </div>
+            <div id="mile-main" className="milestone">
+              <div className="milestone-label">Main Card</div>
+              <div className="milestone-dot"></div>
+            </div>
+          </div>
         </div>
       </main>
-    </div>
+
+      <section className="upcoming-section">
+        <div className="section-header">
+          <h2>Upcoming</h2>
+          <div className="tz-label">Berlin Time</div>
+        </div>
+        <div className="events-grid">
+          {upcomingEvents.map((event) => {
+            const dateObj = event.mainCardAt ? new Date(event.mainCardAt) : null;
+            const dateStr = dateObj ? dateObj.toLocaleString('de-DE', { month: 'short', day: '2-digit' }).toUpperCase() : 'TBA';
+            const timeStr = dateObj ? dateObj.toLocaleString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '--:--';
+
+            return (
+              <div key={event.id} className="event-card">
+                <div className="card-badges">
+                  <div className="badge">{dateStr}</div>
+                  <div className="badge">{timeStr}</div>
+                </div>
+                <div className="card-title">{event.eventName}</div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <footer className="footer-credit">
+        UNFORCED ERRORS // 2024
+      </footer>
+    </>
   );
 }
