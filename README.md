@@ -5,7 +5,7 @@
 
 <br/>
 
-> **A premium, phase-aware UFC countdown designed specifically for the European timezone.**
+> **A premium, phase-aware UFC countdown designed specifically for your local timezone.**
 
 <br/>
 
@@ -29,11 +29,11 @@
 
 ## 🌑 THE RITUAL
 
-**UFC Timer** is built for the CET/CEST warriors staying up until dawn. It removes the friction of timezone math and calendar digging, providing a cinematic, zero-distraction dashboard that tracks the exact status of the fight night.
+**UFC Timer** is built for fight fans staying up until dawn. It removes the friction of timezone math and calendar digging, providing a cinematic, zero-distraction dashboard that tracks the exact status of the fight night.
 
 ### Features
 *   **🔴 Phase Aware:** Dynamically switches targets from Early Prelims ➔ Prelims ➔ Main Card.
-*   **🕒 Berlin Native:** Hardcoded for `Europe/Berlin`. No more guessing when the main card actually starts.
+*   **🕒 Local Native:** Automatically detects your timezone. No more guessing when the main card actually starts.
 *   **🔥 Live State:** Automatically transitions to a pulsing **LIVE NOW** state when it's time for the main event cycle.
 *   **⚔️ Brutalist Design:** Dark radial gradients, subtle noise textures, and ultra-bold typography. No ads, no fluff.
 

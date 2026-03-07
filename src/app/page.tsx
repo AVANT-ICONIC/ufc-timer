@@ -1,6 +1,7 @@
 import { getEvents } from "@/lib/ufc/get-events";
 import { selectPrimaryEvent } from "@/lib/ufc/select-primary-event";
 import CountdownTicker from "@/components/CountdownTicker";
+import UpcomingEvents from "@/components/UpcomingEvents";
 
 export default async function Home() {
   const events = await getEvents();
@@ -8,7 +9,7 @@ export default async function Home() {
   const upcomingEvents = events.filter(e => e.id !== primaryEvent?.id).slice(0, 3);
 
   // Extract fighter names from summary (e.g., "Holloway vs Oliveira")
-  const matchupParts = primaryEvent?.eventName.split(" vs ") || ["FIGHT", "CLOCK"];
+  const matchupParts = primaryEvent?.eventName.split(" vs ") || ["UFC", "TIMER"];
   const fighter1 = matchupParts[0]?.trim().toUpperCase() || "TBA";
   const fighter2 = matchupParts[1]?.trim().toUpperCase() || "TBA";
 
@@ -16,13 +17,8 @@ export default async function Home() {
     <>
       <header className="header">
         <div className="logo">UFC<span>TIMER</span></div>
-        <div style={{ display: 'flex', gap: '0.8rem' }}>
-          <div className="live-visitors">
-            👥 <span>74</span>
-          </div>
-          <div className="status-widget">
-            Source: <span>UFC Calendar</span>
-          </div>
+        <div className="status-widget">
+          Source: <span>UFC Calendar</span>
         </div>
       </header>
 
@@ -64,25 +60,9 @@ export default async function Home() {
       <section className="upcoming-section">
         <div className="section-header">
           <h2>Upcoming</h2>
-          <div className="tz-label">Berlin Time</div>
+          <div className="tz-label">Local Time</div>
         </div>
-        <div className="events-grid">
-          {upcomingEvents.map((event) => {
-            const dateObj = event.mainCardAt ? new Date(event.mainCardAt) : null;
-            const dateStr = dateObj ? dateObj.toLocaleString('de-DE', { month: 'short', day: '2-digit' }).toUpperCase() : 'TBA';
-            const timeStr = dateObj ? dateObj.toLocaleString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '--:--';
-
-            return (
-              <div key={event.id} className="event-card">
-                <div className="card-badges">
-                  <div className="badge">{dateStr}</div>
-                  <div className="badge">{timeStr}</div>
-                </div>
-                <div className="card-title">{event.eventName}</div>
-              </div>
-            );
-          })}
-        </div>
+        <UpcomingEvents events={upcomingEvents} />
       </section>
 
     </>
