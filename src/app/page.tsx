@@ -15,9 +15,14 @@ export default async function Home() {
   return (
     <>
       <header className="header">
-        <div className="logo">FIGHT<span>CLOCK</span></div>
-        <div className="status-widget">
-          Source: <span>UFC Calendar</span>
+        <div className="logo">UFC<span>TIMER</span></div>
+        <div style={{ display: 'flex', gap: '0.8rem' }}>
+          <div className="live-visitors">
+            👥 <span>74</span>
+          </div>
+          <div className="status-widget">
+            Source: <span>UFC Calendar</span>
+          </div>
         </div>
       </header>
 
@@ -80,9 +85,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer className="footer-credit">
-        UNFORCED ERRORS // 2026
-      </footer>
     </>
   );
 }

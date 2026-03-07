@@ -83,7 +83,7 @@ header {
 
 .logo span { color: var(--accent); }
 
-.status-widget {
+.status-widget, .live-visitors {
   background: var(--glass);
   padding: 0.4rem 1rem;
   border-radius: 4px;
@@ -93,9 +93,16 @@ header {
   text-transform: uppercase;
   color: var(--text-dim);
   letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.status-widget span { color: var(--text-main); font-weight: 800; }
+.status-widget span, .live-visitors span { color: var(--text-main); font-weight: 800; }
+
+.live-visitors {
+  color: var(--accent);
+}
 
 /* Hero */
 .hero {

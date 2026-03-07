@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🥊 FIGHTCLOCK
+# 🥊 UFC TIMER
 ### [UFC-TIMER.VERCEL.APP](https://ufc-timer.vercel.app)
 
 <br/>
@@ -9,7 +9,7 @@
 
 <br/>
 
-[![Enter the Octagon](https://img.shields.io/badge/ENTER_THE_OCTAGON-LIVE_NOW-ff0033?style=for-the-badge&logo=vercel)](https://ufc-timer.vercel.app)
+[![Enter the Octagon](https://img.shields.io/badge/UFC_TIMER-LIVE_NOW-ff0033?style=for-the-badge&logo=vercel)](https://ufc-timer.vercel.app)
 
 </div>
 
@@ -29,7 +29,7 @@
 
 ## 🌑 THE RITUAL
 
-**FIGHTCLOCK** is built for the CET/CEST warriors staying up until dawn. It removes the friction of timezone math and calendar digging, providing a cinematic, zero-distraction dashboard that tracks the exact status of the fight night.
+**UFC Timer** is built for the CET/CEST warriors staying up until dawn. It removes the friction of timezone math and calendar digging, providing a cinematic, zero-distraction dashboard that tracks the exact status of the fight night.
 
 ### Features
 *   **🔴 Phase Aware:** Dynamically switches targets from Early Prelims ➔ Prelims ➔ Main Card.

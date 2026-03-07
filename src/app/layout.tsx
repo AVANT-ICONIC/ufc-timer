@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FIGHT CLOCK // Your Sleep Schedule is Dead",
+  title: "UFC Timer // Your Sleep Schedule is Dead",
   description: "Premium UFC countdown for fight fans.",
 };
 
@@ -20,6 +21,7 @@ export default function RootLayout({
         </div>
         <div className="container">
           {children}
+          <Analytics />
         </div>
       </body>
     </html>
