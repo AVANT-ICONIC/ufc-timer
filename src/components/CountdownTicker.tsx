@@ -30,21 +30,23 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
     let target = eventTimes.main;
     let phaseName = 'Main Card';
 
-    if (currentTime < (eventTimes.prelims?.getTime() || eventTimes.main.getTime())) {
-      if (event.earlyPrelimsAt && currentTime < new Date(event.earlyPrelimsAt).getTime()) {
-        target = new Date(event.earlyPrelimsAt);
-        phaseName = 'Early Prelims';
-      } else if (eventTimes.prelims) {
-        target = eventTimes.prelims;
-        phaseName = 'Prelims';
-      }
+    const earlyAt = event.earlyPrelimsAt ? new Date(event.earlyPrelimsAt).getTime() : null;
+    const prelimsAt = eventTimes.prelims?.getTime() || null;
+    const mainAt = eventTimes.main.getTime();
+
+    if (earlyAt && currentTime < earlyAt) {
+      target = new Date(event.earlyPrelimsAt!);
+      phaseName = 'Early Prelims';
+    } else if (prelimsAt && currentTime < prelimsAt) {
+      target = eventTimes.prelims!;
+      phaseName = 'Prelims';
+    } else {
+      target = eventTimes.main;
+      phaseName = 'Main Card';
     }
 
     // Progress Calculation
     let progress = 0;
-    const earlyAt = event.earlyPrelimsAt ? new Date(event.earlyPrelimsAt).getTime() : null;
-    const prelimsAt = event.prelimsAt ? new Date(event.prelimsAt).getTime() : null;
-    const mainAt = eventTimes.main.getTime();
 
     if (earlyAt && currentTime < earlyAt) {
       progress = 0;
@@ -55,7 +57,8 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
       const range = earlyAt ? 33.33 : 50;
       progress = base + ((currentTime - prelimsAt) / (mainAt - prelimsAt)) * range;
     } else if (currentTime < mainAt) {
-      progress = (currentTime - (earlyAt || prelimsAt || mainAt - 3600000)) / (mainAt - (earlyAt || prelimsAt || mainAt - 3600000)) * 100;
+      const startOfWindow = earlyAt || prelimsAt || (mainAt - 3600000);
+      progress = ((currentTime - startOfWindow) / (mainAt - startOfWindow)) * 100;
     } else {
       progress = 100;
     }
