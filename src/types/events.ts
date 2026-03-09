@@ -11,4 +11,5 @@ export type UfcEvent = {
   location: string | null;
   source: 'ufc-cal';
   confidence: 'high' | 'medium' | 'low';
+  rawDescription?: string | null;
 };
