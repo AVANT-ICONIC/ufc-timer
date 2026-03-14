@@ -47,14 +47,18 @@ export default async function Home() {
             <div id="progress-fill" className="phase-progress-fill" style={{ width: '0%' }}></div>
           </div>
           <div className="milestones-wrapper">
-            <div id="mile-early" className="milestone">
-              <div className="milestone-label">Early Prelims</div>
-              <div className="milestone-dot"></div>
-            </div>
-            <div id="mile-prelims" className="milestone">
-              <div className="milestone-label">Prelims</div>
-              <div className="milestone-dot"></div>
-            </div>
+            {primaryEvent?.earlyPrelimsAt && (
+              <div id="mile-early" className="milestone">
+                <div className="milestone-label">Early Prelims</div>
+                <div className="milestone-dot"></div>
+              </div>
+            )}
+            {primaryEvent?.prelimsAt && (
+              <div id="mile-prelims" className="milestone">
+                <div className="milestone-label">Prelims</div>
+                <div className="milestone-dot"></div>
+              </div>
+            )}
             <div id="mile-main" className="milestone">
               <div className="milestone-label">Main Card</div>
               <div className="milestone-dot"></div>

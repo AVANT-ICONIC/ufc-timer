@@ -26,41 +26,52 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
     const currentTime = now.getTime();
     const isLive = currentTime >= eventTimes.main.getTime() && currentTime < eventTimes.end.getTime();
     
-    // Determine Target
-    let target = eventTimes.main;
-    let phaseName = 'Main Card';
-
     const earlyAt = event.earlyPrelimsAt ? new Date(event.earlyPrelimsAt).getTime() : null;
     const prelimsAt = eventTimes.prelims?.getTime() || null;
     const mainAt = eventTimes.main.getTime();
 
-    if (earlyAt && currentTime < earlyAt) {
-      target = new Date(event.earlyPrelimsAt!);
-      phaseName = 'Early Prelims';
-    } else if (prelimsAt && currentTime < prelimsAt) {
-      target = eventTimes.prelims!;
-      phaseName = 'Prelims';
-    } else {
-      target = eventTimes.main;
-      phaseName = 'Main Card';
+    const phases = [];
+    if (earlyAt) phases.push({ time: earlyAt, name: 'Early Prelims' });
+    if (prelimsAt) phases.push({ time: prelimsAt, name: 'Prelims' });
+    phases.push({ time: mainAt, name: 'Main Card' });
+
+    // Determine Target
+    let target = new Date(phases[phases.length - 1].time);
+    let phaseName = phases[phases.length - 1].name;
+
+    for (const phase of phases) {
+      if (currentTime < phase.time) {
+        target = new Date(phase.time);
+        phaseName = phase.name;
+        break;
+      }
     }
 
     // Progress Calculation
     let progress = 0;
-
-    if (earlyAt && currentTime < earlyAt) {
-      progress = 0;
-    } else if (earlyAt && prelimsAt && currentTime < prelimsAt) {
-      progress = ((currentTime - earlyAt) / (prelimsAt - earlyAt)) * 33.33;
-    } else if (prelimsAt && currentTime < mainAt) {
-      const base = earlyAt ? 33.33 : 0;
-      const range = earlyAt ? 33.33 : 50;
-      progress = base + ((currentTime - prelimsAt) / (mainAt - prelimsAt)) * range;
-    } else if (currentTime < mainAt) {
-      const startOfWindow = earlyAt || prelimsAt || (mainAt - 3600000);
-      progress = ((currentTime - startOfWindow) / (mainAt - startOfWindow)) * 100;
+    if (phases.length === 1) {
+      progress = currentTime >= mainAt ? 100 : 0;
     } else {
-      progress = 100;
+      let currentPhaseIndex = -1;
+      for (let i = phases.length - 1; i >= 0; i--) {
+        if (currentTime >= phases[i].time) {
+          currentPhaseIndex = i;
+          break;
+        }
+      }
+
+      if (currentPhaseIndex === -1) {
+        progress = 0;
+      } else if (currentPhaseIndex === phases.length - 1) {
+        progress = 100;
+      } else {
+        const startPhase = phases[currentPhaseIndex];
+        const endPhase = phases[currentPhaseIndex + 1];
+        const segmentPercent = 100 / (phases.length - 1);
+        const basePercent = currentPhaseIndex * segmentPercent;
+        const segmentProgress = (currentTime - startPhase.time) / (endPhase.time - startPhase.time);
+        progress = basePercent + (segmentProgress * segmentPercent);
+      }
     }
 
     return { isLive, target, phaseName, progress, 
