@@ -99,29 +99,43 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
 
   return (
     <div className="clock">
-      {d > 0 && (
+      {d > 0 ? (
         <>
           <div className="clock-unit">
             <div className="clock-value">{d.toString().padStart(2, '0')}</div>
             <div className="clock-label">DAYS</div>
           </div>
           <div className="clock-sep">:</div>
+          <div className="clock-unit">
+            <div className="clock-value">{h.toString().padStart(2, '0')}</div>
+            <div className="clock-label">HOURS</div>
+          </div>
+        </>
+      ) : h > 0 ? (
+        <>
+          <div className="clock-unit">
+            <div className="clock-value">{h.toString().padStart(2, '0')}</div>
+            <div className="clock-label">HOURS</div>
+          </div>
+          <div className="clock-sep">:</div>
+          <div className="clock-unit">
+            <div className="clock-value">{m.toString().padStart(2, '0')}</div>
+            <div className="clock-label">MINUTES</div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="clock-unit">
+            <div className="clock-value">{m.toString().padStart(2, '0')}</div>
+            <div className="clock-label">MINUTES</div>
+          </div>
+          <div className="clock-sep">:</div>
+          <div className="clock-unit">
+            <div className="clock-value">{s.toString().padStart(2, '0')}</div>
+            <div className="clock-label">SECONDS</div>
+          </div>
         </>
       )}
-      <div className="clock-unit">
-        <div className="clock-value">{h.toString().padStart(2, '0')}</div>
-        <div className="clock-label">HRS</div>
-      </div>
-      <div className="clock-sep">:</div>
-      <div className="clock-unit">
-        <div className="clock-value">{m.toString().padStart(2, '0')}</div>
-        <div className="clock-label">MIN</div>
-      </div>
-      <div className="clock-sep">:</div>
-      <div className="clock-unit">
-        <div className="clock-value">{s.toString().padStart(2, '0')}</div>
-        <div className="clock-label">SEC</div>
-      </div>
     </div>
   );
 }
