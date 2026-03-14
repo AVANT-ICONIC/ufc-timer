@@ -1,12 +1,10 @@
 import { getEvents } from "@/lib/ufc/get-events";
 import { selectPrimaryEvent } from "@/lib/ufc/select-primary-event";
 import CountdownTicker from "@/components/CountdownTicker";
-import UpcomingEvents from "@/components/UpcomingEvents";
 
 export default async function Home() {
   const events = await getEvents();
   const primaryEvent = selectPrimaryEvent(events);
-  const upcomingEvents = events.filter(e => e.id !== primaryEvent?.id).slice(0, 3);
 
   // Extract fighter names from summary (e.g., "Holloway vs Oliveira")
   const matchupParts = primaryEvent?.eventName.split(" vs ") || ["UFC", "TIMER"];
@@ -64,15 +62,6 @@ export default async function Home() {
           </div>
         </div>
       </main>
-
-      <section className="upcoming-section">
-        <div className="section-header">
-          <h2>Upcoming</h2>
-          <div className="tz-label">Local Time</div>
-        </div>
-        <UpcomingEvents events={upcomingEvents} />
-      </section>
-
     </>
   );
 }
