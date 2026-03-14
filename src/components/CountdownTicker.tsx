@@ -30,55 +30,44 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
     const prelimsAt = eventTimes.prelims?.getTime() || null;
     const mainAt = eventTimes.main.getTime();
 
-    const phases = [];
-    if (earlyAt) phases.push({ time: earlyAt, name: 'Early Prelims' });
-    if (prelimsAt) phases.push({ time: prelimsAt, name: 'Prelims' });
-    phases.push({ time: mainAt, name: 'Main Card' });
+    // Strict Target Determination (what the timer numbers count down to)
+    let target = new Date(mainAt);
+    let phaseName = 'Main Card';
 
-    // Determine Target
-    let target = new Date(phases[phases.length - 1].time);
-    let phaseName = phases[phases.length - 1].name;
-
-    for (const phase of phases) {
-      if (currentTime < phase.time) {
-        target = new Date(phase.time);
-        phaseName = phase.name;
-        break;
-      }
+    if (earlyAt && currentTime < earlyAt) {
+      target = new Date(earlyAt);
+      phaseName = 'Early Prelims';
+    } else if (prelimsAt && currentTime < prelimsAt) {
+      target = new Date(prelimsAt);
+      phaseName = 'Prelims';
     }
 
-    // Progress Calculation
+    // Visual Progress Bar Determination 
+    // The UI reliably has 3 dots (0%, 50%, 100%). We simulate missing phases right before real ones.
+    const visEarly = earlyAt || (prelimsAt ? prelimsAt - 3600000 : mainAt - 7200000);
+    const visPrelim = prelimsAt || mainAt - 3600000;
+
     let progress = 0;
-    if (phases.length === 1) {
-      progress = currentTime >= mainAt ? 100 : 0;
+    if (currentTime < visEarly) {
+      progress = 0;
+    } else if (currentTime < visPrelim) {
+      progress = ((currentTime - visEarly) / (visPrelim - visEarly)) * 50;
+    } else if (currentTime < mainAt) {
+      progress = 50 + ((currentTime - visPrelim) / (mainAt - visPrelim)) * 50;
     } else {
-      let currentPhaseIndex = -1;
-      for (let i = phases.length - 1; i >= 0; i--) {
-        if (currentTime >= phases[i].time) {
-          currentPhaseIndex = i;
-          break;
-        }
-      }
-
-      if (currentPhaseIndex === -1) {
-        progress = 0;
-      } else if (currentPhaseIndex === phases.length - 1) {
-        progress = 100;
-      } else {
-        const startPhase = phases[currentPhaseIndex];
-        const endPhase = phases[currentPhaseIndex + 1];
-        const segmentPercent = 100 / (phases.length - 1);
-        const basePercent = currentPhaseIndex * segmentPercent;
-        const segmentProgress = (currentTime - startPhase.time) / (endPhase.time - startPhase.time);
-        progress = basePercent + (segmentProgress * segmentPercent);
-      }
+      progress = 100;
     }
 
-    return { isLive, target, phaseName, progress, 
-             reachedEarly: earlyAt ? currentTime >= earlyAt : false,
-             reachedPrelims: prelimsAt ? currentTime >= prelimsAt : false,
-             reachedMain: currentTime >= mainAt,
-             activePhase: phaseName };
+    return { 
+      isLive, 
+      target, 
+      phaseName, 
+      progress, 
+      reachedEarly: currentTime >= visEarly,
+      reachedPrelims: currentTime >= visPrelim,
+      reachedMain: currentTime >= mainAt,
+      activePhase: phaseName 
+    };
   }, [now, eventTimes, event]);
 
   const diff = state.target.getTime() - now.getTime();
