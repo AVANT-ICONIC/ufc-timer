@@ -28,12 +28,13 @@ export function normalizeEvents(rawEvents: unknown[]): UfcEvent[] {
       // Prelims Default: -120 mins (2h) before Main Card
 
       const prelimsOffset = parseOffset(description, 'Prelims') || 120;
-      const earlyPrelimsOffset = parseOffset(description, 'Early Prelims');
+      const earlyPrelimsOffset = parseOffset(description, 'Early Prelims') ?? (prelimsOffset + 120);
 
       const mainCardAt = start ? start.toISOString() : null;
       const prelimsAt = start ? subMinutes(start, prelimsOffset).toISOString() : null;
-      const earlyPrelimsAt = start && earlyPrelimsOffset !== null ? subMinutes(start, earlyPrelimsOffset).toISOString() : null;
-      const endAt = start ? addMinutes(start, 360).toISOString() : null;
+      const earlyPrelimsAt = start ? subMinutes(start, earlyPrelimsOffset).toISOString() : null;
+      const durationMins = isFightNight ? 180 : 240;
+      const endAt = start ? addMinutes(start, durationMins).toISOString() : null;
 
 
       return {

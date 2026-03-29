@@ -5,9 +5,10 @@ import { UfcEvent } from '@/types/events';
 
 interface CountdownTickerProps {
   event: UfcEvent;
+  nextEvent?: UfcEvent;
 }
 
-export default function CountdownTicker({ event }: CountdownTickerProps) {
+export default function CountdownTicker({ event, nextEvent }: CountdownTickerProps) {
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -30,47 +31,63 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
     const prelimsAt = eventTimes.prelims?.getTime() || null;
     const mainAt = eventTimes.main.getTime();
 
-    // Strict Target Determination (what the timer numbers count down to)
+    // Target Determination (what the timer numbers count down to)
     let target = new Date(mainAt);
-    let phaseName = 'Main Card';
+    let targetPhase = 'Main Card';
 
     if (earlyAt && currentTime < earlyAt) {
       target = new Date(earlyAt);
-      phaseName = 'Early Prelims';
+      targetPhase = 'Early Prelims';
     } else if (prelimsAt && currentTime < prelimsAt) {
       target = new Date(prelimsAt);
-      phaseName = 'Prelims';
+      targetPhase = 'Prelims';
     }
 
-    // Visual Progress Bar Determination 
-    // The UI reliably has 3 dots (0%, 50%, 100%). We simulate missing phases right before real ones.
-    const visEarly = earlyAt || (prelimsAt ? prelimsAt - 3600000 : mainAt - 7200000);
+    // Active Phase Determination (what is currently "happening" based on real event times)
+    let activePhase = 'Pre-Event';
+    if (currentTime >= mainAt) activePhase = 'Main Card';
+    else if (prelimsAt && currentTime >= prelimsAt) activePhase = 'Prelims';
+    else if (earlyAt && currentTime >= earlyAt) activePhase = 'Early Prelims';
+
+    // Visual Progress Bar Determination
     const visPrelim = prelimsAt || mainAt - 3600000;
-
     let progress = 0;
-    if (currentTime < visEarly) {
-      progress = 0;
-    } else if (currentTime < visPrelim) {
-      progress = ((currentTime - visEarly) / (visPrelim - visEarly)) * 50;
-    } else if (currentTime < mainAt) {
-      progress = 50 + ((currentTime - visPrelim) / (mainAt - visPrelim)) * 50;
+    if (earlyAt) {
+      // 3-phase mode: Early Prelims → Prelims → Main Card
+      if (currentTime < earlyAt) {
+        progress = 0;
+      } else if (currentTime < visPrelim) {
+        progress = ((currentTime - earlyAt) / (visPrelim - earlyAt)) * 50;
+      } else if (currentTime < mainAt) {
+        progress = 50 + ((currentTime - visPrelim) / (mainAt - visPrelim)) * 50;
+      } else {
+        progress = 100;
+      }
     } else {
-      progress = 100;
+      // 2-phase mode: Prelims → Main Card
+      if (currentTime < visPrelim) {
+        progress = 0;
+      } else if (currentTime < mainAt) {
+        progress = ((currentTime - visPrelim) / (mainAt - visPrelim)) * 100;
+      } else {
+        progress = 100;
+      }
     }
 
-    return { 
-      isLive, 
-      target, 
-      phaseName, 
-      progress, 
-      reachedEarly: currentTime >= visEarly,
+    return {
+      isLive,
+      isPast: currentTime >= eventTimes.end.getTime(),
+      target,
+      targetPhase,
+      progress,
+      reachedEarly: currentTime >= (earlyAt ?? (prelimsAt ? prelimsAt - 3600000 : mainAt - 7200000)),
       reachedPrelims: currentTime >= visPrelim,
       reachedMain: currentTime >= mainAt,
-      activePhase: phaseName 
+      activePhase
     };
   }, [now, eventTimes, event]);
 
-  const diff = state.target.getTime() - now.getTime();
+  const diff = Math.max(0, state.target.getTime() - now.getTime());
   const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -83,9 +100,13 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
       document.getElementById('mile-prelims')?.classList.toggle('reached', state.reachedPrelims);
       document.getElementById('mile-main')?.classList.toggle('reached', state.reachedMain);
       
-      document.getElementById('mile-early')?.classList.toggle('active', !state.reachedEarly && state.activePhase === 'Early Prelims');
-      document.getElementById('mile-prelims')?.classList.toggle('active', !state.reachedPrelims && state.activePhase === 'Prelims');
-      document.getElementById('mile-main')?.classList.toggle('active', !state.reachedMain && state.activePhase === 'Main Card');
+      document.getElementById('mile-early')?.classList.toggle('active', state.activePhase === 'Early Prelims');
+      document.getElementById('mile-prelims')?.classList.toggle('active', state.activePhase === 'Prelims');
+      document.getElementById('mile-main')?.classList.toggle('active', state.activePhase === 'Main Card');
+
+      document.getElementById('mile-early')?.classList.toggle('target', state.targetPhase === 'Early Prelims');
+      document.getElementById('mile-prelims')?.classList.toggle('target', state.targetPhase === 'Prelims');
+      document.getElementById('mile-main')?.classList.toggle('target', state.targetPhase === 'Main Card');
 
       const fill = document.getElementById('progress-fill');
       if (fill) fill.style.width = `${state.progress}%`;
@@ -95,6 +116,27 @@ export default function CountdownTicker({ event }: CountdownTickerProps) {
 
   if (state.isLive) {
     return <div className="live-now">Live Now</div>;
+  }
+
+  if (state.isPast) {
+    if (nextEvent?.mainCardAt) {
+      const nextDate = new Date(nextEvent.mainCardAt);
+      const dateStr = nextDate.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'America/New_York',
+      }).toUpperCase();
+      return (
+        <div className="concluded-state">
+          <div className="concluded-label">Event Concluded</div>
+          <div className="next-up-label">Next Up</div>
+          <div className="next-up-name">{nextEvent.eventName.toUpperCase()}</div>
+          <div className="next-up-date">{dateStr}</div>
+        </div>
+      );
+    }
+    return <div className="concluded-label">Event Concluded</div>;
   }
 
   return (

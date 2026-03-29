@@ -1,15 +1,25 @@
 import { getEvents } from "@/lib/ufc/get-events";
-import { selectPrimaryEvent } from "@/lib/ufc/select-primary-event";
+import { selectPrimaryEvent, selectNextEvent } from "@/lib/ufc/select-primary-event";
 import CountdownTicker from "@/components/CountdownTicker";
+import { format } from "date-fns";
+
+export const revalidate = 3600;
 
 export default async function Home() {
   const events = await getEvents();
   const primaryEvent = selectPrimaryEvent(events);
+  const nextEvent = selectNextEvent(events, primaryEvent);
 
   // Extract fighter names from summary (e.g., "Holloway vs Oliveira")
   const matchupParts = primaryEvent?.eventName.split(" vs ") || ["UFC", "TIMER"];
   const fighter1 = matchupParts[0]?.trim().toUpperCase() || "TBA";
   const fighter2 = matchupParts[1]?.trim().toUpperCase() || "TBA";
+
+  const now = new Date();
+  const listEvents = events.filter(e => {
+    const start = e.mainCardAt ? new Date(e.mainCardAt) : null;
+    return start && start > now && e.id !== primaryEvent?.id;
+  });
 
   return (
     <>
@@ -36,7 +46,7 @@ export default async function Home() {
         
         <div className="timer-container">
           {primaryEvent ? (
-            <CountdownTicker event={primaryEvent} />
+            <CountdownTicker event={primaryEvent} nextEvent={nextEvent ?? undefined} />
           ) : (
             <div className="clock-placeholder">No upcoming events</div>
           )}
@@ -62,6 +72,45 @@ export default async function Home() {
           </div>
         </div>
       </main>
+
+      {listEvents.length > 0 && (
+        <section className="container upcoming-section">
+          <div className="section-header">
+            <h2>Next Upcoming Events</h2>
+            <div className="tz-label">Local Time</div>
+          </div>
+          <div className="events-grid">
+            {listEvents.map((event) => {
+              const parts = event.eventName.split(" vs ");
+              const f1 = parts[0]?.trim().toUpperCase() || "TBA";
+              const f2 = parts[1]?.trim().toUpperCase() || "TBA";
+              const eventDate = event.mainCardAt ? new Date(event.mainCardAt) : null;
+              
+              return (
+                <div key={event.id} className="event-card">
+                  <div className="card-badges">
+                    <span className="badge">{event.eventType}</span>
+                  </div>
+                  <div className="card-title">
+                    {f1} <span style={{ fontStyle: 'italic', opacity: 0.5, fontSize: '0.8em', margin: '0 0.5rem' }}>vs</span> {f2}
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--silver)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    {eventDate ? format(eventDate, "MMMM d, yyyy") : "TBA"}
+                    <br />
+                    <span style={{ color: 'var(--text-dim)', fontSize: '0.7rem' }}>
+                      {eventDate ? format(eventDate, "h:mm a") : ""}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <footer className="footer-credit">
+        UFC TIMER &bull; ALL TIMES LOCAL &bull; DATA FROM UFC CALENDAR SOURCE
+      </footer>
     </>
   );
 }

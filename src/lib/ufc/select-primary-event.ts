@@ -1,5 +1,12 @@
 import { UfcEvent } from '@/types/events';
 
+export function selectNextEvent(events: UfcEvent[], primary: UfcEvent | null): UfcEvent | null {
+  if (!primary) return null;
+  const idx = events.findIndex((e) => e.id === primary.id);
+  if (idx === -1) return null;
+  return events[idx + 1] || null;
+}
+
 export function selectPrimaryEvent(events: UfcEvent[]): UfcEvent | null {
   if (events.length === 0) return null;
 
@@ -20,5 +27,5 @@ export function selectPrimaryEvent(events: UfcEvent[]): UfcEvent | null {
     return start && start > now;
   });
 
-  return upcomingEvent || events[0]; // Fallback to the first event if none found
+  return upcomingEvent || null;
 }
